@@ -86,7 +86,6 @@ int main()
 	ship1.addEngine(e, 1);
 	ship1.setActiveEngine(0);
 	
-	double timeStep = ship1._orbit.period / 50.0;
 	double *angles = new double[50];
 	double *thrust = new double[50];
 	
@@ -107,7 +106,7 @@ int main()
 	
 	for (int i = 0; i < 30; i++)
 	{
-		p.SetParameterLowerBound(angles, i, -2.0 * pi);
+		p.SetParameterLowerBound(angles, i, 0);
 		p.SetParameterUpperBound(angles, i, 2.0 * pi);
 		p.SetParameterUpperBound(thrust, i, (ship1.activeEngine.thrust / ship1.mass));
 		p.SetParameterLowerBound(thrust, i, 0);
@@ -115,8 +114,9 @@ int main()
 	
 
 	Solver::Options options;
-	options.max_num_iterations = 10;
-	options.linear_solver_type = ceres::ITERATIVE_SCHUR;
+	options.max_num_iterations = 100;
+	options.use_explicit_schur_complement = true;
+	options.linear_solver_type = ceres::DENSE_QR;
 	options.minimizer_progress_to_stdout = true;
 	
 	
@@ -145,7 +145,7 @@ int main()
 	windows.push_back(pane(200, 200, 100, 100));
 	int it = 0;
 	int t = 0;
-
+	int step = 0;
 	while (window.isOpen())
 	{
 		//mouse movement
@@ -171,24 +171,26 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
 			t += 5;
+			step = (t * 50.0) / target._orbit.period;
+			float timeStep = 5;
 			//25 steps in first burn
-			
+			float flowRate = ship1.activeEngine.getFlowRate();
 			double r = sqrt(ship1.x * ship1.x + ship1.y * ship1.y);
-			float currentAngle = angles[int(t / timeStep)] + (angles[1] * (t / (target._orbit.period)));
+			float currentAngle = angles[step];// + (angles[step] * (t / (target._orbit.period)));
 
-				ship1.vx += angles[int(t/(timeStep))] * cos(currentAngle) * timeStep;
-				ship1.vy += angles[int(t / (timeStep))] * sin(currentAngle) * timeStep;
+				ship1.vx += thrust[step] * cos(currentAngle) * timeStep;
+				ship1.vy += thrust[step] * sin(currentAngle) * timeStep;
 
 			//simulate gravity
-			//ship1.vx -= ((G * target.mass) / (r * r)) * cos(atan(ship1.x / ship1.y)) * timeStep;
-			//ship1.vy -= ((G * target.mass) / (r * r)) * sin(atan(ship1.x / ship1.y)) * timeStep;
-			//fuel -= timeStep * flowRate * (a[0] / (_ship.activeEngine.thrust / mass));
-			//mass = fuel + emptyMass;
-			//ship1.x += ship1.vx * timeStep;
-			//ship1.y += ship1.vy * timeStep;
+			ship1.vx -= ((G * target.mass) / (r * r)) * cos(atan(ship1.x / ship1.y)) * timeStep;
+			ship1.vy -= ((G * target.mass) / (r * r)) * sin(atan(ship1.x / ship1.y)) * timeStep;
+			ship1.fuel -= timeStep * flowRate * (thrust[step] / (ship1.activeEngine.thrust / ship1.mass));
+			ship1.mass = ship1.fuel + ship1.emptyMass;
+			ship1.x += ship1.vx * timeStep;
+			ship1.y -= ship1.vy * timeStep;
 		}
 
-		ship1.angle = angles[int(t / timeStep)];
+		ship1.angle = angles[step];
 		//ship1.setPosition
 
 
@@ -197,7 +199,7 @@ int main()
 
 		Vector2d vec;
 
-		vec = keplarianToCartesian(ship1._orbit, t);
+		//vec = keplarianToCartesian(ship1._orbit, t);
 
 		//ship1.setPosition(vec.x / 6000.f, vec.y / 6000.f);
 

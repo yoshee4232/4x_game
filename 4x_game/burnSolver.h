@@ -44,7 +44,6 @@ public:
 		float flowRate = _ship.activeEngine.getFlowRate();
 		float mass = _ship.mass;
 		double burnTime = fuel / flowRate;
-
 		float rvx = (_ship.vx - orbitingBody.vx);
 		float rvy = (_ship.vy - orbitingBody.vy);
 		float rx = (_ship.x - orbitingBody.x);
@@ -72,8 +71,8 @@ public:
 			ry += rvy * timeStep;
 		}
 
-		Vector2d pos1 = keplarianToCartesian(cartesianToKeplarian(target.x, target.y, target.vx, target.vy, orbitingBody.mass), 10000);
-		Vector2d pos2 = keplarianToCartesian(cartesianToKeplarian(target.x, target.y, target.vx, target.vy, orbitingBody.mass), 10000 + 1);
+		Vector2d pos1 = keplarianToCartesian(cartesianToKeplarian(target.x, target.y, target.vx, target.vy, orbitingBody.mass), period);
+		Vector2d pos2 = keplarianToCartesian(cartesianToKeplarian(target.x, target.y, target.vx, target.vy, orbitingBody.mass), period + 1);
 		Vector2d vt;
 		//target velocity
 		vt.x = pos2.x - pos1.x;
@@ -85,7 +84,7 @@ public:
 		ry = (ry - pos1.y);
 		float v = sqrt(rvx * rvx + rvy * rvy);
 		float d = sqrt(rx * rx + ry * ry);
-		cost[0] = (v*v)+sqrt(d);
+		cost[0] = (v*v)*sqrt(d);
 
 		return true;
 	}

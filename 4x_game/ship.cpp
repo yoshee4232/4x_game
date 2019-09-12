@@ -45,8 +45,8 @@ void ship::addEngine(engine e, int ammount)
 
 void ship::draw(RenderWindow& window, view v)
 {
-	float dx = (x - v.x) * v.zoom;
-	float dy = (y - v.y) * v.zoom;
+	float dx = (x / 6000.0 - v.x) * v.zoom;
+	float dy = (y / 6000.0 - v.y) * v.zoom;
 	//triangle
 	CircleShape shape(40*v.zoom, 3);
 	shape.setOrigin((40.0 * v.zoom) / 2.0, (40.0 * v.zoom) / 2.0);
