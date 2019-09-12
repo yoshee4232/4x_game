@@ -1,0 +1,148 @@
+#there must always be a start node
+node "start"
+{
+	tier 0
+	unlockAtStart
+	description "the start of your space race"
+}
+
+node "nuclear"
+{
+	tier 1
+	requires "start"
+	description "a basic understanding of nuclear technology"
+	category "power"
+}
+
+node "chemical rockets"
+{
+	tier 1
+	requires "start"
+	description "a basic understanding of chemical rocket technology"
+	category "engine"
+}
+
+node "ion propulsion"
+{
+	tier 1
+	requires "start"
+	description "a basic understanding of ion technology"
+	category "engine"
+	partClass "none"
+}
+
+node "pebble bed reactor"
+{
+	tier 2
+	requires "nuclear"
+	category "power"
+}
+
+node "pressurized
+water reactor"
+{
+	tier 2
+	requires "nuclear"
+	category "power"
+}
+
+node "pebble bed engine"
+{
+	tier 4
+	requires "pebble bed reactor"
+	category "engine"
+}
+
+node "composite ntr"
+{
+	tier 2
+	requires "nuclear"
+	category "engine"
+}
+
+node "sodium cooled reactor"
+{
+	tier 3
+	requires "pressurized
+water reactor"
+	category "power"
+}
+
+node "lead cooled reactor"
+{
+	tier 3
+	requires "pressurized
+water reactor"
+	category "power"
+}
+
+node "molten salt reactor"
+{
+	tier 3
+	requires "pressurized
+water reactor"
+	category "power"
+}
+
+node "low pressure ntr"
+{
+	tier 3
+	requires "composite ntr"
+	category "engine"
+}
+
+node "liquid core ntr"
+{
+	tier 3
+	requires "composite ntr"
+	category "engine"
+}
+
+node "gas core ntr"
+{
+	tier 4
+	requires "liquid core ntr"
+	category "engine"
+}
+
+node "droplet core ntr"
+{
+	tier 4
+	requires "liquid core ntr"
+	category "engine"
+}
+
+node "vapor core ntr"
+{
+	tier 5
+	requires "gas core ntr"
+	category "engine"
+}
+
+node "pulsed core ntr"
+{
+	tier 5
+	requires "gas core ntr"
+	category "engine"
+}
+
+node "stuff"
+{
+	tier 4
+	requires "low pressure ntr"
+	category "engine"
+}
+
+node "nstar"
+{
+	tier 2
+	requires "ion propulsion"
+	category "engine"
+}
+
+node "hall effect"
+{
+	tier 2
+	requires "ion propulsion"
+	category "engine"
+}
