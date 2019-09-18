@@ -66,6 +66,23 @@ orbit cartesianToKeplarian(double x, double y, double vx, double vy, double m)
 	return out;
 }
 
+orbit orbitFromValues(double semiMajorAxis, double eccentricity, double trueAnomaly, double argOfPeriapsis, double m)
+{
+	orbit out;
+	out.semiMajorAxis = semiMajorAxis;
+	out.eccentricity = eccentricity;
+	out.trueAnomaly = trueAnomaly;
+	out.argOfPeriapsis = argOfPeriapsis;
+
+	out.semiMinorAxis = semiMajorAxis * sqrt(1 - eccentricity * eccentricity);
+	out.period = 2.0 * pi * sqrt(pow(out.semiMajorAxis, 3) / (G * m));
+	out.eccentricAnomaly = acos((out.eccentricity + cos(out.trueAnomaly)) / (1 + out.eccentricity * cos(out.trueAnomaly)));
+	out.meanAnomaly = out.eccentricAnomaly - out.eccentricity * sin(out.eccentricAnomaly);
+	out.period = 2.0 * pi * sqrt(pow(out.semiMajorAxis, 3) / (G * m));
+
+	return out;
+}
+
 Vector2d keplarianToCartesian(orbit o, double t)
 {
 	Vector2d out;
@@ -102,4 +119,15 @@ Vector2d keplarianToCartesian(orbit o, double t)
 	out.y = -out.y;
 	
 	return out;
+}
+
+
+Vector2d getVelocity(orbit o, double t)
+{
+	Vector2d pos1 = keplarianToCartesian(o, t);
+	Vector2d pos2 = keplarianToCartesian(o, t + 1);
+	Vector2d vt;
+	vt.x = pos2.x - pos1.x;
+	vt.y = pos2.x - pos1.x;
+	return vt;
 }

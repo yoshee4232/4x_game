@@ -158,6 +158,8 @@
     <ClCompile Include="asteroid.cpp" />
     <ClCompile Include="container.cpp" />
     <ClCompile Include="keplarianConversions.cpp" />
+    <ClCompile Include="networkTrainer.cpp" />
+    <ClCompile Include="neuralNet.cpp" />
     <ClCompile Include="pane.cpp" />
     <ClCompile Include="parts\engine.cpp" />
     <ClCompile Include="parts\part.cpp" />
@@ -175,6 +177,8 @@
     <ClInclude Include="container.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="keplarianConversions.h" />
+    <ClInclude Include="networkTrainer.h" />
+    <ClInclude Include="neuralNet.h" />
     <ClInclude Include="pane.h" />
     <ClInclude Include="parts\engine.h" />
     <ClInclude Include="parts\part.h" />

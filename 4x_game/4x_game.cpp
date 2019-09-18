@@ -12,7 +12,8 @@
 #include "ship.h"
 #include "burnSolver.h"
 #include "Tech tree/tree.h"
-
+#include "neuralNet.h"
+#include "networkTrainer.h"
 #include "glog/logging.h"
 
 using ceres::NumericDiffCostFunction;
@@ -63,6 +64,7 @@ int main()
 	window.setView(v1);
 
 	view v;
+	v.zoom = 0.0001;
 	
 	planet earth;
 	earth.setMass(6.1272e24f);
@@ -83,9 +85,10 @@ int main()
 	ship1.setMass(2000);
 	ship1.fuel = 1000;
 	ship1.emptyMass = 1000;
+	ship1.fueledMass = 2000;
 	ship1.addEngine(e, 1);
 	ship1.setActiveEngine(0);
-	
+	/*
 	double *angles = new double[50];
 	double *thrust = new double[50];
 	
@@ -131,11 +134,15 @@ int main()
 		cout << angles[i] << endl;
 		cout << thrust[i] << endl;
 	}
+
 	std::cout << summary.BriefReport() << "\n";
-	
+	*/
 
 	vector<pane> windows;
-	
+
+	networkTrainer netTrainer;
+	netTrainer.trainGen();
+
 	pane tmp(200, 200, 400, 100);
 	textBox text("test1");
 	text.setPosition(10, 30);
@@ -171,6 +178,7 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
 			t += 5;
+			/*
 			step = (t * 50.0) / target._orbit.period;
 			float timeStep = 5;
 			//25 steps in first burn
@@ -187,10 +195,9 @@ int main()
 			ship1.fuel -= timeStep * flowRate * (thrust[step] / (ship1.activeEngine.thrust / ship1.mass));
 			ship1.mass = ship1.fuel + ship1.emptyMass;
 			ship1.x += ship1.vx * timeStep;
-			ship1.y -= ship1.vy * timeStep;
+			ship1.y -= ship1.vy * timeStep;*/
 		}
 
-		ship1.angle = angles[step];
 		//ship1.setPosition
 
 
@@ -199,13 +206,13 @@ int main()
 
 		Vector2d vec;
 
-		//vec = keplarianToCartesian(ship1._orbit, t);
+		vec = keplarianToCartesian(ship1._orbit, t);
 
-		//ship1.setPosition(vec.x / 6000.f, vec.y / 6000.f);
+		ship1.setPosition(vec.x, vec.y);
 
 		vec = keplarianToCartesian(target._orbit, t);
 
-		target.setPosition(vec.x / 6000.f, vec.y / 6000.f);
+		target.setPosition(vec.x, vec.y);
 
 		ship1.draw(window, v);
 

@@ -15,6 +15,12 @@ float ship::calculateDv()
 void ship::setActiveEngine(int n)
 {
 	activeEngine = engines[n];
+	maxDeltaV = activeEngine.exhaustVelocity * log(fueledMass / emptyMass);
+}
+
+float ship::getDv() const
+{
+	return activeEngine.exhaustVelocity * log(mass / emptyMass);
 }
 
 void ship::setOrbit(orbit o)
@@ -26,6 +32,26 @@ float ship::getFlowRate() const
 {
 	return activeEngine.getFlowRate();
 }
+
+void ship::performBurn(float time, float thrust, float angle)
+{
+	float fuelRequirement = time * activeEngine.getFlowRate() * (thrust / (activeEngine.thrust / mass));
+	if (fuel > fuelRequirement)
+	{
+		vx += thrust * cos(angle) * time;
+		vy += thrust * sin(angle) * time;
+		fuel -= fuelRequirement;
+		mass = fuel + emptyMass;
+	}
+	else
+	{
+		return;
+	}
+
+	x += vx * time;
+	y += vy * time;
+}
+
 /*
 double ship::getThrust()
 {
@@ -45,10 +71,10 @@ void ship::addEngine(engine e, int ammount)
 
 void ship::draw(RenderWindow& window, view v)
 {
-	float dx = (x / 6000.0 - v.x) * v.zoom;
-	float dy = (y / 6000.0 - v.y) * v.zoom;
+	double dx = (x - v.x) * v.zoom;
+	double dy = (y - v.y) * v.zoom;
 	//triangle
-	CircleShape shape(40*v.zoom, 3);
+	CircleShape shape(400000*v.zoom, 3);
 	shape.setOrigin((40.0 * v.zoom) / 2.0, (40.0 * v.zoom) / 2.0);
 	shape.setFillColor(Color::Blue);
 	shape.setPosition(dx, dy);

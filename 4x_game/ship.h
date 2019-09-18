@@ -13,6 +13,8 @@ public:
 	double getThrust();
 	float getAcceleration();
 	*/
+	void performBurn(float time, float thrust, float angle);
+	float getDv() const;
 	float getFlowRate() const;
 	void addEngine(engine e, int ammount);
 	void draw(RenderWindow& r, view v);
@@ -23,6 +25,7 @@ public:
 	float fueledMass;
 	float fuel;
 	float deltaV;
+	float maxDeltaV;
 	float angle = 0;
 	engine activeEngine;
 	vector<engine> engines;

@@ -27,4 +27,6 @@ orbit cartesianToKeplarian(double x, double y, double vx, double vy, double m);
 
 Vector2d keplarianToCartesian(orbit o, double t);
 
-Vector2d keplarianToCartesianV(orbit o, double t);
+Vector2d getVelocity(orbit o, double t);
+
+orbit orbitFromValues(double _semiMajorAxis, double _eccentricity, double trueAnomaly, double argOfPeriapsis, double m);

@@ -69,6 +69,12 @@
     <ClCompile Include="Tech tree\tree.cpp">
       <Filter>Source Files\Tech tree</Filter>
     </ClCompile>
+    <ClCompile Include="networkTrainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="neuralNet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textBox.h">
@@ -101,9 +107,6 @@
     <ClInclude Include="parts\engine.h">
       <Filter>Source Files\parts</Filter>
     </ClInclude>
-    <ClInclude Include="parts\part.h">
-      <Filter>Source Files\parts</Filter>
-    </ClInclude>
     <ClInclude Include="asteroid.h">
       <Filter>Source Files\physics</Filter>
     </ClInclude>
@@ -121,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="Tech tree\tree.h">
       <Filter>Source Files\Tech tree</Filter>
+    </ClInclude>
+    <ClInclude Include="networkTrainer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="neuralNet.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parts\part.h">
+      <Filter>Source Files\parts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

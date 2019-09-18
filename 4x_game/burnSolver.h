@@ -84,7 +84,7 @@ public:
 		ry = (ry - pos1.y);
 		float v = sqrt(rvx * rvx + rvy * rvy);
 		float d = sqrt(rx * rx + ry * ry);
-		cost[0] = (v*v)*sqrt(d);
+		cost[0] = (v*v) + sqrt(d);
 
 		return true;
 	}
