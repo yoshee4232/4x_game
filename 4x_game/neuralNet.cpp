@@ -12,9 +12,21 @@ neuralNet::neuralNet()
 
 neuralNet::neuralNet(neuralNet &n1, neuralNet &n2, float mutationRate)
 {
-	for (int i = 0; i < GENOME_SIZE; i++)
+	int split = rand() % GENOME_SIZE;
+	for (int i = 0; i < split; i++)
 	{
-		genome[i] = rand() % 2;
+		if (rand() < mutationRate)
+			genome[i] = rand() % 2;
+		else
+			genome[i] = n1.genome[i];
+	}
+
+	for (int i = split; i < GENOME_SIZE; i++)
+	{
+		if (rand() < mutationRate)
+			genome[i] = rand() % 2;
+		else
+			genome[i] = n1.genome[i];
 	}
 }
 
